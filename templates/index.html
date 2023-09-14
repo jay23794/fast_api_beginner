@@ -1,95 +1,173 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Take your notes</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">INotess</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              
-             
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
-        </div>
-      </nav>
 
-    <div class="container">
-      <form>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Title</label>
-          <input name= "title"  type="text" class="form-control" id="title" aria-describedby="emailHelp">
-       
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label"  >Descritption</label>
-          <input type="text" class="form-control" id="desc" name= "desc">
-        </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" name= "important" id="important">
-          <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
-        <button type="button" class="btn btn-primary">Submit</button>
-      </form>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Take your notes</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+  <script src='main.js'></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">INotess</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
     </div>
-      <div class="container mt-5">
-            <h5 class="h-5">My Notes</h5>
-            {% if newDocs is defined %}
-              No notes to display
-            {% endif%}
-            <ul class="list-group">
-                {% for item in newDocs %}
-                <li class="list-group-item">{{item.title}}</li>
-                 {% endfor %}
-              </ul>   
+  </nav>
+
+  <div class="container mt-5">
+    <form>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Title</label>
+        <input name="title" type="text" class="form-control" id="title" aria-describedby="emailHelp">
+
       </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-  </body>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Descritption</label>
+        <input type="text" class="form-control" id="desc" name="desc">
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" name="important" id="important">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      </div>
+      <button type="button" id="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+  <div class="container mt-5">
+    <h3 class="h-5">My Notes</h3>
+      {% if newDocs is undefined %}
+      No notes to display
+      {% endif%}
+    <div class="row">
+      {% for item in newDocs %}
+        <div class="col-md-3 border m-2">
+          <div class="d-flex justify-content-between  align-items-center">
+              <p  class="item m-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="{{item.id}}" >{{item.title}}</p> 
+              <Button class="btn"><span class="badge rounded-pill text-bg-dark" onclick="deleteNote('{{item.id}}')">X</span></Button>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="submit" class="btn btn-primary" onclick="updateNote() "data-bs-dismiss="modal" >Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</body>
+
 </html>
 <script>
-  $(document).ready(function(){
-    $("button").click(function(){
+   var noteId = ''
+  $(document).ready(function () {
+    const data = "HEEEE"
+    $("#submit").click(function () {
       console.log($('#title').val());
       $.ajax({
-         type: "POST",
+        type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "/add_node",
+        url: "/add_note",
         data: JSON.stringify({
-          "title":$('#title').val(),
-          "desc":$('#desc').val(),
-          "important":$('#important').val()=="on" ? true : false
+          "title": $('#title').val(),
+          "desc": $('#desc').val(),
+          "important": $('#important').val() == "on" ? true : false
         }),
         dataType: "json",
         success: function (data) {
           //  alert(data);
         },
         error: function (result) {
-            //alert("Error");
+          //alert("Error");
         }
-        });
-     
+      });
+
     });
   });
-  </script>
+
+  function deleteNote(noteId){
+    $.ajax({
+        type: "DELETE",
+        contentType: "application/json; charset=utf-8",
+        url: "/delete_note",
+        data: JSON.stringify({
+          "id": noteId}),
+        dataType: "json",
+        success: function (data) {
+          //  alert(data);
+        },
+        error: function (result) {
+          //alert("Error");
+        }
+      });
+  }
+
+  function updateNote(){
+    $.ajax({
+        type: "PUT",
+        contentType: "application/json; charset=utf-8",
+        url: "/update_note",
+        data: JSON.stringify({
+          "id":noteId,
+          "title": $('#update_title').val(),
+          "desc": $('#update_desc').val(),
+          "important": $('#update_important').val() == "on" ? true : false
+        }),
+        dataType: "json",
+        success: function (data) {
+          //  alert(data);
+        },
+        error: function (result) {
+          //alert("Error");
+        }
+      });
+  }
+
+  $(".item").click(function(){
+   noteId=this.id
+   $('.modal-body').append(`<form>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Title</label>
+              <input name="title" type="text" class="form-control" id="update_title" aria-describedby="emailHelp" value="">
+      
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Descritption</label>
+              <input type="text" class="form-control" id="update_desc" name="desc" value="">
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" name="important" id="update_important">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            
+          </form>`)
+});
+</script>
